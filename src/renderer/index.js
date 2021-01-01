@@ -36,11 +36,9 @@ const HostConfig = {
     const element = document.createElement(type);
     element.className = newProps.className || "";
     element.style = newProps.style;
-    // ....
-    // ....
-    // if (newProps.onClick) {
-    //   element.addEventListener('click', newProps.onClick)
-    // }
+    if (newProps.onClick) {
+      element.addEventListener("click", newProps.onClick);
+    }
     return element;
   },
   // Attach the child dom node to the parent on the initial render phase.
@@ -73,6 +71,36 @@ const HostConfig = {
   // This method is mainly used in react-dom for implementing autofocus
   commitMount: (domElement, type, newProps, fiberNode) => {
     domElement.focus();
+  },
+  // Called first on the node, where the prop change occurs and then it is called on all the tree nodes recursively.
+  // This method can be used to hint the reconciler whether an update needs to be performed on this node or not.
+  // If this function doesnt return anything, then reconciler decides whether the update should be performed on this node or not based on its algorithm.
+  prepareUpdate: function (
+    instance,
+    type,
+    oldProps,
+    newProps,
+    rootContainerInstance,
+    currentHostContext
+  ) {
+    return; //return nothing.
+  },
+  // Perform all updates that we queued using prepareUpdate method.
+  // We will get the instance, the updatePayload, old and new props etc.
+  // This is where we should do all our dom manupulation work if needed.
+  commitUpdate: function (
+    instance,
+    updatePayload,
+    type,
+    oldProps,
+    newProps,
+    finishedWork
+  ) {
+    return; //return nothing.
+  },
+  // dom on textnode
+  commitTextUpdate: function (textInstance, oldText, newText) {
+    textInstance.nodeValue = newText;
   },
   supportsMutation: true,
 };
